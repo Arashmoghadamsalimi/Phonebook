@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Phone || Book</title>
+  </head>
+
+  <body class="box-border py-20 px-10 overflow-scroll bg-black">
+    <main class="p-8 bg-gray-200 rounded-xl">
+      <section class="flex items-center justify-between mb-10">
+        <div class="flex items-center gap-4">
+          <span>
+            <img src="./phonebook-icon.svg" alt="logo-icon" />
+          </span>
+          <p class="text-3xl font-semibold text-black">Phonebook</p>
+        </div>
+
+        <div class="flex items-center rounded-lg">
+          <span class="bg-slate-100 rounded-bl-lg rounded-tl-lg h-10 py-1">
+            <img class="h-9 w-10" src="./serach-icon.svg" alt="serach-icon" />
+          </span>
+          <input
+            class="h-10 w-52 bg-slate-100 px-3 rounded-br-lg rounded-tr-lg"
+            type="search"
+            name="search"
+            id="search"
+            placeholder="Type to Search"
+          />
+        </div>
+
+        <div>
+          <button
+            class="text-gray-100 h-11 w-48 rounded-lg bg-gray-700 text-lg font-medium"
+            type="submit"
+          >
+            Create Contact
+          </button>
+        </div>
+      </section>
+
+      <section class="bg-gray-200 p-4">
+        <div
+          class="py-7 mb-3 border-b-2 border-black flex justify-around items-center"
+        >
+          <div>
+            <h1 class="text-lg font-medium">Contact Name</h1>
+          </div>
+          <div>
+            <h1 class="text-lg font-medium">Phone Number</h1>
+          </div>
+        </div>
+
+        <div>
+          <h4
+            class="text-gray-600 text-base font-medium ml-2"
+            id="contacts_amount"
+          >
+            contacts <span id="amount">(X)</span>
+          </h4>
+        </div>
+
+        <div
+          class="flex border border-black rounded mt-3 p-3 text-lg font-medium"
+          id="contact"
+        >
+          <div class="w-1/2 flex gap-2" id="contact_name">
+            <div id="contact_firstName"></div>
+            <div id="contact_lastName"></div>
+          </div>
+          <div class="w-1/2" id="contact_number"></div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
