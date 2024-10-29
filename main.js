@@ -2,8 +2,22 @@ import { data } from "autoprefixer";
 import "./style.css";
 
 let contacts = [];
-contacts = await fetch("https://671cf16209103098807bb538.mockapi.io/Users");
-console.log(contacts.length);
+async function render() {
+
+  try {
+    const response = await fetch(
+      "https://671cf16209103098807bb538.mockapi.io/Users"
+    );
+    contacts = await response.json();
+    contactsAmounts();
+    contacts.forEach(showContact);
+    contacts.forEach(showNumber);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+  console.log(contacts)
+}
+render();
 
 let contactsAmounts = () => {
   if (contacts.length == 0) {
@@ -13,31 +27,33 @@ let contactsAmounts = () => {
   }
 };
 
-contacts.forEach(showContact);
-function showContact() {
+function showContact(contact) {
   const firstName = document.createElement("p");
   const lastName = document.createElement("p");
-  firstName.innerText = "${contacts.FirsName}";
-  lastName.innerText = "${contacts.LastName}";
+  firstName.innerText = `${contact.FirsName}`;
+  lastName.innerText = `${contact.LastName}`;
   document.getElementById("contact_firstName").appendChild(firstName);
   document.getElementById("contact_lastName").appendChild(lastName);
 }
-contacts.forEach(showNumber);
-function showNumber() {
+
+function showNumber(contact) {
   const number = document.createElement("p");
-  firstName.innerText = "${contacts.Number}";
+  number.innerText = `${contact.Number}`;
   document.getElementById("contact_number").appendChild(number);
 }
 
-async function render() {
-  if (contacts.ok) {
-    let json = await contacts.json();
-    console.log(json);
-  } else {
-    alert("HTTP-Error: " + contacts.status);
-  }
-  contactsAmounts();
-  showContact();
-  showNumber();
+
+// save in local storage
+
+console.log(contacts)
+function createContact() {
+  let addContact = document.getElementById("createContact");
+  addContact.addEventListener("click", (e) => {
+    let firstName = prompt("Enter first name");
+    let lastName = prompt("Enter last name");
+    let number = prompt("Enter number");
+    localStorage.setItem(firstName+lastName, number);
+  console.log(addContact);
+  });
 }
-render();
+createContact();
