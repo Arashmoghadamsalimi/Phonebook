@@ -2,6 +2,7 @@ import { data } from "autoprefixer";
 import "./style.css";
 
 let contacts = [];
+let contactsFromStorage = localStorage.getItem("contacts");
 
 function createContact() {
   let addContact = document.getElementById("createContact");
@@ -15,17 +16,17 @@ function createContact() {
       number,
     };
     contacts.push(contact);
-    console.log(contacts);
-    localStorage.setItem("contacts", contacts);
+    localStorage.setItem("contacts", JSON.stringify(contacts));
   });
 }
 createContact();
 
 let contactsAmounts = () => {
-  if (contacts.length == 0) {
+  contactsFromStorage
+  if (contactsFromStorage.length == 0) {
     document.getElementById("contacts_amount").textContent = "No Contacts";
   } else {
-    document.getElementById("amount").textContent = contacts.length;
+    document.getElementById("amount").textContent = contactsFromStorage.length;
   }
 };
 
@@ -41,25 +42,28 @@ function showContact(contact) {
   document.getElementById("contact_number").appendChild(number);
 }
 
-// function search() {
-//   let query = document.getElementById("search")
-//   let matchingContact = contacts.filter((contact) => {
-//     let firstName = contact.firstName.tolowercase();
-//     let lastName = contact.lastName.tolowercase();
-//     let number = contact.number;
-    
-//     return (
-//       firstName.includes(query) ||
-//       lastName.includes(query) ||
-//       number.includes(query) ||
-//     );
-//   });
-// }
-// search()
+function search() {
+  let query = document.getElementById("search");
+  let matchingContact = contactsFromStorage.filter((contact) => {
+    let firstName = contactsFromStorage.firstName.tolowercase();
+    let lastName = contactsFromStorage.lastName.tolowercase();
+    let number = contactsFromStorage.number;
+
+    return (
+      firstName.includes(query) ||
+      lastName.includes(query) ||
+      number.includes(query)
+    );
+  });
+  matchingContact()
+}
+search();
 
 function render() {
-  localStorage.getItem("contacts", contacts);
+
   contactsAmounts();
-  contacts.forEach(showContact);
+  contactsFromStorage.forEach(showContact);
+  console.log(contactsFromStorage);
 }
 render();
+console.log(contactsFromStorage.length);
