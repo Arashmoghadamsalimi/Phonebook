@@ -1,0 +1,16 @@
+{
+  "contacts": [
+    {
+      "id": "1",
+      "firstName": "ali",
+      "lastName": "ahmadi",
+      "number": 3654788
+    },
+    {
+      "id": "2",
+      "firstName": "mohammad",
+      "lastName": "rezaei",
+      "number": 2052140
+    }
+  ]
+}

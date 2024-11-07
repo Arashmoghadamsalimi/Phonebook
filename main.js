@@ -44,16 +44,13 @@ let contacts = [];
 
 async function fetchContacts() {
   try {
-    const response = await fetch(
-      "https://671cf16209103098807bb538.mockapi.io/Users"
-    );
+    const response = await fetch("http://localhost:3000/contacts");
     if (!response.ok) {
       throw new Error("HTTP-Error: " + response.status);
     }
     contacts = await response.json();
   } catch (error) {
-    console.error(error);
-    alert(error.message);
+    console.log(error.message);
   }
 }
 
@@ -66,33 +63,47 @@ function contactsAmounts() {
   }
 }
 
-function search(e) {
-  let query = document.getElementById("search");
-  let matchingContact = contacts.filter((contact) => {
-    let firstName = contact.firstName.tolowercase();
-    let lastName = contact.lastName.tolowercase();
-    let number = contact.number;
-
-    return (
-      firstName.includes(query) ||
-      lastName.includes(query) ||
-      number.includes(query)
-    );
-  });
-  matchingContact();
-}
-search();
-
 function showContact(contact) {
-  const firstName = document.createElement("p");
-  const lastName = document.createElement("p");
-  const number = document.createElement("p");
-  firstName.innerText = contact.FirsName;
-  lastName.innerText = contact.LastName;
-  number.innerText = contact.Number;
-  document.getElementById("contact_firstName").appendChild(firstName);
-  document.getElementById("contact_lastName").appendChild(lastName);
-  document.getElementById("contact_number").appendChild(number);
+  const contactDiv = document.getElementById("contact");
+  contactDiv.className = "flex justify-between gap-28";
+  contactDiv.innerHTML = `
+  <p>${contact.firstName}</p>
+  <p>${contact.lastName}</p>
+  <p>${contact.number}</p>
+  <button id="remove" type="submit" onclick="removeContact(this)">
+  <img class="w-5 h-5" src="./bin.svg" alt="bin">
+  </button>`;
+}
+
+async function removeContact(){
+  let btn = await document.getElementById("remove")
+  btn.addEventListener("click", (e) => {
+    e.target.remove()
+  })
+}
+removeContact()
+
+async function postContact(data) {
+  const res = await fetch("http://localhost:3000/contacts", {
+    method: "post",
+    body: JSON.stringify(data),
+  });
+  return res;
+}
+
+function createContact() {
+  let addContact = document.getElementById("createContact");
+  addContact.addEventListener("click", async (e) => {
+    let firstName = prompt("Enter first name");
+    let lastName = prompt("Enter last name");
+    let number = +prompt("Enter number");
+
+    const res = await postContact({
+      firstName: firstName,
+      lastName: lastName,
+      number: number,
+    });
+  });
 }
 
 async function render() {
@@ -102,25 +113,40 @@ async function render() {
   document.getElementById("contact_firstName").innerHTML = "";
   document.getElementById("contact_lastName").innerHTML = "";
   document.getElementById("contact_number").innerHTML = "";
-
+  createContact();
   contacts.forEach((contact) => showContact(contact));
 }
 
 render();
 
+// function search(e) {
+//   let query = document.getElementById("search");
+//   let matchingContact = contacts.filter((contact) => {
+//     let firstName = contact.firstName.tolowercase();
+//     let lastName = contact.lastName.tolowercase();
+//     let number = contact.number;
 
+//     return (
+//       firstName.includes(query) ||
+//       lastName.includes(query) ||
+//       number.includes(query)
+//     );
+//   });
+//   matchingContact();
+// }
+// search();
 
-function filterItems(e) {
-  const items = itemList.querySelectorAll('li');
-  const text = e.target.value.toLowerCase();
+// function filterItems(e) {
+//   const items = itemList.querySelectorAll('li');
+//   const text = e.target.value.toLowerCase();
 
-  items.forEach((item) => {
-      const itemName = item.firstChild.textContent.toLowerCase();
-      if (itemName.indexOf(text) !== -1) {
-          item.style.display = 'flex';
-      } else {
-          item.style.display = 'none';
-      }
-  });
-}
-itemFilter.addEventListener('input', filterItems);
+//   items.forEach((item) => {
+//       const itemName = item.firstChild.textContent.toLowerCase();
+//       if (itemName.indexOf(text) !== -1) {
+//           item.style.display = 'flex';
+//       } else {
+//           item.style.display = 'none';
+//       }
+//   });
+// }
+// itemFilter.addEventListener('input', filterItems);
